@@ -6,12 +6,11 @@
 
 ## 주요 기능
  - 홈 페이지
-    - 오늘 날짜에 해당하는 일정, 할일, 일기를 Tab 기능을 이용해서 구현
+    - Tab 기능을 이용해서 오늘 날짜에 해당하는 일정, 할일, 일기 화면 구현
 - 일정, 할일, 일기 페이지
     - 캘린더 화면에서 날짜를 클릭하거나 범위를 선택하여 해당 기간 동안의 데이터를 리스트 형태로 구현
-    - 범위 선택 기능 구현
     - 추가 기능 모달 창 구현
-    - 편집  및 삭제 기능
+    - 편집 및 삭제 기능
 
 <br><br>
 
@@ -27,7 +26,8 @@
 ### LinkedHashMap을 이용하여 날짜별 일정을 분리하여 보여주는 기능 구현
 
 - **TableCalendar** widget에 Custom events를 적용하려면 eventLoader를 사용한다.
-```
+  
+``` Dart
 eventLoader: (day) {
   return _getEventsForDay(day);
 },
@@ -39,8 +39,7 @@ List<Event> _getEventsForDay(DateTime day) {
   
 - DB에 저장된 List<Schedule> 데이터를 **LinkedHashMap<DateTime, List<Schedule>>** 형식으로 만듬
 
-  
-```
+``` Dart
 //  {2024-05-03 00:00:00.000: [apple, banana, orange], 2024-05-04 00:00:00.000: [car, bus, train]}
 //  다음과 같은 형태로 데이터를 만듬
 
@@ -56,7 +55,34 @@ int getHashCode(DateTime key) {
 <br>
 
 ### DefaultTabController Widget과 Provider를 이용해 탭 기능 구현
+
 - TabBar 사용해 탭 목록 구현 및 TabBarView 사용하여 각 탭에 해당하는 위젯을 표시
+
+``` Dart
+DefaultTabController(
+ child: Column(
+  children:[
+   TabBar(
+    tabs:[
+     Tab(text: "Schedule"),
+     Tab(text: "Todo"),
+     Tab(text: "Diary"),
+    ],
+    onTap: (index){
+     provider.changeIndex(index);
+    },
+  ),
+   TabBarView(
+    children:[
+     ScheduleView(),
+     TodoView(),
+     DiaryView(),
+    ],
+   ),
+  ],
+ ),
+),
+```
 
 
 
